@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Tabs, message } from "antd";
 import Login from "../login/Login";
-import CompanyDashboard from "./CompanyDashboard";
-import StudentDashboard from "./StudentDashboard";
 import StudentSignUp from "../signup/StudentSignUp";
 import CompanySignUp from "../signup/CompanySignUp";
 
@@ -33,15 +31,16 @@ export default class Dashboard extends Component {
     })
       .then(res => res.json())
       .then(json => {
-       
         if (json != 403) {
-          localStorage.setItem("currentStudent", JSON.stringify(json[0]));
+          localStorage.setItem("token", JSON.stringify(json.token));
+          console.log("props",this.props.history)
           this.props.history.push({
             pathname: "/student/dashboard",
-            state: { currentStudent: json[0] }
+            state: { currentStudent: json.student}
           });
+          console.log("props",json.student);
         } else {
-          message.error("Please provide correct username and password",3)
+          message.error("Please provide correct username and password", 3);
           this.setState({
             name: "",
             password: ""
@@ -49,8 +48,7 @@ export default class Dashboard extends Component {
         }
       })
       .catch(err => {
-        message.error("404 error Page not found",3);
-
+        message.error("404 error Page not found", 3);
       });
   };
   loginCompany = () => {
@@ -64,17 +62,17 @@ export default class Dashboard extends Component {
       body: JSON.stringify({ name, password })
     })
       .then(res => {
-        return res.json()
+        return res.json();
       })
       .then(json => {
         if (json.length > 0) {
           localStorage.setItem("currentUser", JSON.stringify(json[0]));
           this.props.history.push({
             pathname: "/compnay/dashboard",
-            state: { currentUser: json[0] }
+            state: { currentUser: json }
           });
         } else {
-          message.error("Please provide correct username and password",3)
+          message.error("Please provide correct username and password", 3);
           this.setState({
             name: "",
             password: ""
@@ -82,7 +80,7 @@ export default class Dashboard extends Component {
         }
       })
       .catch(err => {
-        message.error("404 error Page not found",3);
+        message.error("404 error Page not found", 3);
         console.log("err:", err);
       });
   };

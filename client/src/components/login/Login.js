@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button,  Typography } from "antd";
+import { Form, Icon, Input, Button, Typography } from "antd";
 export default function Login(props) {
   const { Title } = Typography;
   const {

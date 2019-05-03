@@ -28,9 +28,8 @@ app.post("/admin/login", (req, res) => {
       if (!admin) {
         return res.json("sorry you entered wrong cridintils");
       }
-      // else {
+
       res.json(admin);
-      // }
     })
     .catch(err => {
       res.json(err);
@@ -74,19 +73,13 @@ app.get("/companies/getall", (req, res) => {
 });
 //get all students data
 app.get("/students/getall", verifyToken, (req, res) => {
-  jwt.verify(req.token, "secretkey", (err, authData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      StudentModel.find({ active: true })
-        .then(students => {
-          res.json({ students, authData });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  });
+  StudentModel.find({ active: true })
+    .then(students => {
+      res.json({ students });
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
 //student login
 app.post("/students/login", (req, res) => {
@@ -103,18 +96,16 @@ app.post("/students/login", (req, res) => {
           student.tokens = student.tokens.concat({ token });
           student
             .save()
-            .then(data => {
-              console.log("student", data);
-            })
+            .then(data => {})
             .catch(err => {
               console.log(err);
             });
 
           res.json({
-            token
+            token,
+            student
           });
         });
-        // res.json(student);
       }
     })
     .catch(err => {
@@ -179,8 +170,10 @@ app.post("/jobs/postjob", (req, res) => {
       console.log("err", err);
     });
 });
-app.get("/jobs/getall", (req, res) => {
+app.get("/jobs/getall", verifyToken, (req, res) => {
+  console.log("inside request!!!!");
   Jobs.find({}, (err, jobs) => {
+    console.log(jobs);
     res.json({ jobs });
   });
 });

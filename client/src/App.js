@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import StudentSignUp from "./components/signup/StudentSignUp";
-import Login from "./components/login/Login";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import CompanyDashboard from "./components/home/CompanyDashboard";
@@ -41,7 +39,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 const authenticate = () => {
-  if (localStorage.getItem("currentUser") || localStorage.getItem("currentStudent")) {
+  if (
+    localStorage.getItem("currentUser") ||
+    localStorage.getItem("currentStudent")
+  ) {
     return true;
   } else {
     return false;

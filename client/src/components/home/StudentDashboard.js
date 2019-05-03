@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import { Card, Skeleton, Tabs, Button } from "antd";
-import StudentSignUp from "../signup/StudentSignUp";
-import Dashboard from "./Dashboard";
-import JobPost from "../JobPost/JobPost";
+import { Card, Tabs, Button } from "antd";
 export default class StudentDashboard extends Component {
   state = {
     loading: true,
@@ -15,7 +12,7 @@ export default class StudentDashboard extends Component {
     this.getAllJobs();
   }
   logout = () => {
-    localStorage.removeItem("currentStudent");
+    localStorage.removeItem("token");
   };
   applyForJob = evt => {
     const appliedBy = this.props.location.state.currentStudent._id;
@@ -46,7 +43,7 @@ export default class StudentDashboard extends Component {
               rec => rec === this.props.location.state.currentStudent._id
             );
             console.log("array", a);
-            return a.length == 0
+            return a.length == 0;
           }),
           appliedJob: json.jobs.filter(rec => {
             let a = rec.appliedBy.filter(

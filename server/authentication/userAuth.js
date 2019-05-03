@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { StudentModel } = require("../models/Student");
 const verifyToken = (req, res, next) => {
+
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {
     const bearer = bearerHeader.split(" ");
@@ -8,6 +9,7 @@ const verifyToken = (req, res, next) => {
     req.token = bearerToken;
     const decode = jwt.verify(req.token, "secretkey");
     const id = decode.student._id;
+    console.log(bearerToken)
     StudentModel.findOne({
       _id: id,
       "tokens.token": bearerToken
@@ -16,6 +18,7 @@ const verifyToken = (req, res, next) => {
       if (!data) {
         new Error();
       } else {
+        console.log("i am on next ")
         next();
       }
     });
